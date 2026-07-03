@@ -1,0 +1,18 @@
+{
+    "source": {
+        "directories": [
+            "../../core/src"
+        ]
+    },
+    "testFramework": "phpunit",
+    "phpUnit": {
+        "configDir": "../../etc/phpunit"
+    },
+    "logs": {
+        "text": "var/log/infection.log",
+        "summary": "var/log/infection-summary.log"
+    },
+    "mutators": {
+        "@default": true
+    }
+}

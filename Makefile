@@ -1,7 +1,7 @@
 export DOCKER_UID := $(shell id -u)
 export DOCKER_GID := $(shell id -g)
 
-.PHONY: up down sh test phpstan cs-fix cs-check deptrac lint
+.PHONY: up down sh test mutation phpstan cs-fix cs-check deptrac lint
 
 up:
 	docker compose up -d
@@ -14,6 +14,9 @@ sh:
 
 test:
 	docker compose exec app bin/phpunit --configuration etc/phpunit/phpunit.xml.dist
+
+mutation:
+	docker compose exec app vendor/bin/infection --configuration=etc/infection/infection.json5 --threads=4 --with-uncovered
 
 phpstan:
 	docker compose exec app vendor/bin/phpstan analyse --configuration etc/phpstan/phpstan.neon --memory-limit=512M
