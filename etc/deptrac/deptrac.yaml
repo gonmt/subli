@@ -1,0 +1,32 @@
+deptrac:
+    paths:
+        - ../../core/src
+        - ../../src
+    layers:
+        -   name: Domain
+            collectors:
+                -   type: classNameRegex
+                    value: '#^Core\\[^\\]+\\Domain\\#'
+        -   name: Application
+            collectors:
+                -   type: classNameRegex
+                    value: '#^Core\\[^\\]+\\Application\\#'
+        -   name: Infrastructure
+            collectors:
+                -   type: classNameRegex
+                    value: '#^Core\\[^\\]+\\Infrastructure\\#'
+        -   name: Symfony
+            collectors:
+                -   type: classNameRegex
+                    value: '#^App\\#'
+    ruleset:
+        Domain: ~
+        Application:
+            - Domain
+        Infrastructure:
+            - Domain
+            - Application
+        Symfony:
+            - Domain
+            - Application
+            - Infrastructure

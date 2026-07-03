@@ -15,3 +15,11 @@
 /phpunit.xml
 /.phpunit.cache/
 ###< phpunit/phpunit ###
+
+###> friendsofphp/php-cs-fixer ###
+/etc/php-cs-fixer/.php-cs-fixer.cache
+###< friendsofphp/php-cs-fixer ###
+
+###> qossmic/deptrac ###
+/.deptrac.cache
+###< qossmic/deptrac ###
