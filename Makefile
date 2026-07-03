@@ -10,7 +10,7 @@ down:
 	docker compose down
 
 sh:
-	docker compose exec php sh
+	docker compose exec app sh
 
 test:
-	docker compose exec php bin/phpunit
+	docker compose exec app bin/phpunit --configuration etc/phpunit/phpunit.xml.dist

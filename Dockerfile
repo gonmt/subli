@@ -1,7 +1,8 @@
-FROM php:8.5-fpm-alpine
+FROM dunglas/frankenphp:1.12.0-php8.5-alpine
 
-RUN apk add --no-cache git unzip postgresql-dev \
-    && docker-php-ext-install pdo pdo_pgsql \
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+RUN apk add --no-cache postgresql-dev \
+    && install-php-extensions pdo_pgsql
+
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
