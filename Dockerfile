@@ -16,4 +16,4 @@ RUN apk add --no-cache libcap \
     && apk del libcap
 COPY . .
 COPY etc/caddy/Caddyfile /etc/frankenphp/Caddyfile
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
