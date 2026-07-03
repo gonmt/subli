@@ -11,5 +11,8 @@ FROM base AS dev
 RUN install-php-extensions pcov
 
 FROM base AS prod
+RUN apk add --no-cache libcap \
+    && setcap -r /usr/local/bin/frankenphp \
+    && apk del libcap
 COPY . .
 RUN composer install --no-dev --optimize-autoloader --no-interaction

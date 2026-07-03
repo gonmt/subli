@@ -15,7 +15,6 @@ services:
       postgres:
         condition: service_healthy
     environment:
-      SERVER_NAME: ":80"
       APP_ENV: ${APP_ENV}
       APP_SECRET: ${APP_SECRET}
       DATABASE_URL: ${DATABASE_URL}
