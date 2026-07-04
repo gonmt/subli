@@ -1,7 +1,7 @@
 export DOCKER_UID := $(shell id -u)
 export DOCKER_GID := $(shell id -g)
 
-.PHONY: up down sh test mutation phpstan cs-fix cs-check deptrac lint
+.PHONY: up down sh test mutation phpstan cs-fix cs-check phpcs phpcbf deptrac lint
 
 up:
 	docker compose up -d
@@ -27,7 +27,13 @@ cs-fix:
 cs-check:
 	docker compose exec app vendor/bin/php-cs-fixer check --config etc/php-cs-fixer/.php-cs-fixer.dist.php --diff --allow-risky=yes
 
+phpcs:
+	docker compose exec app vendor/bin/phpcs --standard=etc/phpcs/phpcs.xml
+
+phpcbf:
+	docker compose exec app vendor/bin/phpcbf --standard=etc/phpcs/phpcs.xml
+
 deptrac:
 	docker compose exec app vendor/bin/deptrac analyse --config-file etc/deptrac/deptrac.yaml
 
-lint: phpstan cs-check deptrac
+lint: phpstan cs-check phpcs deptrac
