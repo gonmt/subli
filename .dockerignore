@@ -1,0 +1,5 @@
+tests/
+core/tests/
+var/
+data/
+.git/

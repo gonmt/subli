@@ -1,0 +1,15 @@
+{
+	auto_https off
+	frankenphp {
+		worker {
+			file /var/www/html/public/index.php
+		}
+	}
+	order php_server before file_server
+}
+
+:{$PORT:80} {
+	root * /var/www/html/public
+	encode zstd br gzip
+	php_server
+}

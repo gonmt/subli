@@ -15,7 +15,7 @@ RUN apk add --no-cache libcap \
     && setcap -r /usr/local/bin/frankenphp \
     && apk del libcap
 COPY . .
-COPY etc/caddy/Caddyfile /etc/frankenphp/Caddyfile
+COPY etc/caddy/Caddyfile.prod /etc/frankenphp/Caddyfile
 COPY etc/docker/entrypoint-prod.sh /usr/local/bin/entrypoint-prod.sh
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts \
     && chmod +x /usr/local/bin/entrypoint-prod.sh
