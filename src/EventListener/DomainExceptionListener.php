@@ -6,6 +6,7 @@ namespace App\EventListener;
 
 use App\Http\ExceptionMappable;
 use Core\Shared\Domain\Error\DomainError;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
 #[AsEventListener(event: KernelEvents::EXCEPTION)]
 final class DomainExceptionListener
 {
+    public function __construct(private readonly LoggerInterface $logger) {}
+
     public function __invoke(ExceptionEvent $event): void
     {
         $controllerClass = $this->resolveControllerClass($event->getRequest()->attributes->get('_controller'));
@@ -33,6 +36,11 @@ final class DomainExceptionListener
                 return;
             }
         }
+
+        $this->logger->error('Unhandled exception in {controller}', [
+            'controller' => $controllerClass,
+            'exception' => $exception,
+        ]);
 
         $event->setResponse(new JsonResponse(
             ['error' => 'INTERNAL_ERROR', 'message' => 'An unexpected error occurred'],

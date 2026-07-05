@@ -3,7 +3,7 @@ export DOCKER_GID := $(shell id -g)
 
 RUN ?= docker compose exec app
 
-.PHONY: up down sh install warmup db-create migrate test mutation phpstan cs-fix cs-check phpcs phpcbf deptrac lint
+.PHONY: up down restart sh install warmup db-create migrate test mutation phpstan cs-fix cs-check phpcs phpcbf deptrac lint
 
 up:
 	docker compose up -d
@@ -11,11 +11,14 @@ up:
 down:
 	docker compose down
 
+restart:
+	docker compose restart app
+
 sh:
 	docker compose exec app sh
 
 install:
-	composer install --no-interaction
+	$(RUN) composer install --no-interaction
 
 warmup:
 	$(RUN) bin/console cache:warmup --env=test

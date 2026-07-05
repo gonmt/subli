@@ -1,7 +1,10 @@
 {
 	auto_https off
 	frankenphp {
-		worker /var/www/html/public/index.php
+		worker {
+			file /var/www/html/public/index.php
+			watch
+		}
 	}
 	order php_server before file_server
 }

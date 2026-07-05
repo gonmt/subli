@@ -85,9 +85,8 @@
             "allow-contrib": false,
             "require": "8.1.*"
         },
-        "runtime": {
-            "disable_dotenv": true
-        }
+        "runtime": {}
+
 
     }
 }
