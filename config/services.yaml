@@ -7,6 +7,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    env(DEFAULT_URI): 'http://localhost'
 
 services:
     # default configuration for services in *this* file
@@ -19,5 +20,13 @@ services:
     App\:
         resource: '../src/'
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    # core/ classes available as services
+    Core\:
+        resource: '../core/src/'
+
+    # domain interface bindings
+    Core\Users\Domain\UserRepository:
+        alias: Core\Users\Infrastructure\Persistence\Doctrine\DoctrineUserRepository
+
+    Core\Users\Domain\PasswordHasher:
+        alias: Core\Users\Infrastructure\Security\SymfonyPasswordHasher

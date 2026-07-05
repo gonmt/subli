@@ -11,13 +11,10 @@ services:
     volumes:
       - .:/var/www/html
       - ./etc/caddy/Caddyfile:/etc/frankenphp/Caddyfile
+    env_file: .env
     depends_on:
       postgres:
         condition: service_healthy
-    environment:
-      APP_ENV: ${APP_ENV}
-      APP_SECRET: ${APP_SECRET}
-      DATABASE_URL: ${DATABASE_URL}
 
   postgres:
     image: postgres:18-alpine

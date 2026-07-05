@@ -1,22 +1,18 @@
 doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
-
         server_version: '18'
         profiling_collect_backtrace: '%kernel.debug%'
-        types: []  # registrar custom types aquí: name: FQCN
     orm:
         validate_xml_mapping: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         identity_generation_preferences:
             Doctrine\DBAL\Platforms\PostgreSQLPlatform: identity
         auto_mapping: false
-        mappings: {}  # agregar un entry por módulo: CoreUsers, CoreOrders, etc.
 
 when@test:
     doctrine:
         dbal:
-            # "TEST_TOKEN" is typically set by ParaTest
             dbname_suffix: '_test%env(default::TEST_TOKEN)%'
 
 when@prod:

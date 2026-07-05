@@ -1,1 +1,0 @@
-{"version":2,"defects":[],"times":{"Core\\Tests\\AsyncTest::test_parallel_futures_run_concurrently":0.003,"Core\\Tests\\AsyncTest::testParallelFuturesRunConcurrently":0.005}}
