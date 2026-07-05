@@ -11,6 +11,7 @@ final readonly class AuthenticatedUser
         public string $username,
         public string $firstName,
         public string $lastName,
+        public string $role,
     ) {
     }
 }

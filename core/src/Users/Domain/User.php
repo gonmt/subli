@@ -9,9 +9,10 @@ final class User
     private function __construct(
         private(set) readonly UserId $id,
         private(set) readonly Username $username,
-        private(set) FirstName $firstName,
-        private(set) LastName $lastName,
+        private(set) readonly FirstName $firstName,
+        private(set) readonly LastName $lastName,
         private(set) string $hashedPassword,
+        private(set) readonly Role $role,
     ) {
     }
 
@@ -22,8 +23,9 @@ final class User
         LastName $lastName,
         PlainPassword $password,
         PasswordHasher $hasher,
+        Role $role,
     ): self {
-        return new self($id, $username, $firstName, $lastName, $hasher->hash($password));
+        return new self($id, $username, $firstName, $lastName, $hasher->hash($password), $role);
     }
 
     public function changePassword(PlainPassword $password, PasswordHasher $hasher): void

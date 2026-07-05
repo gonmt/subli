@@ -40,6 +40,7 @@ final readonly class UserAuthenticator
             $user->username->value,
             $user->firstName->value,
             $user->lastName->value,
+            $user->role->value,
         );
     }
 }

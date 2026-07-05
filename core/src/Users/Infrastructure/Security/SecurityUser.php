@@ -20,7 +20,7 @@ final readonly class SecurityUser implements UserInterface
 
     public function getRoles(): array
     {
-        return ['ROLE_USER'];
+        return [$this->user->role];
     }
 
     public function eraseCredentials(): void

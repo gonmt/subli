@@ -8,6 +8,7 @@ use Core\Users\Domain\FirstName;
 use Core\Users\Domain\LastName;
 use Core\Users\Domain\PasswordHasher;
 use Core\Users\Domain\PlainPassword;
+use Core\Users\Domain\Role;
 use Core\Users\Domain\User;
 use Core\Users\Domain\UserId;
 use Core\Users\Domain\UserRepository;
@@ -46,6 +47,7 @@ final class SeedAdminUserCommand extends Command
             new LastName('User'),
             new PlainPassword('Admin1234'),
             $this->hasher,
+            Role::Admin,
         );
 
         $this->entityManager->persist($user);

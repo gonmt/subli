@@ -8,6 +8,7 @@ use Core\Users\Domain\FirstName;
 use Core\Users\Domain\LastName;
 use Core\Users\Domain\PasswordHasher;
 use Core\Users\Domain\PlainPassword;
+use Core\Users\Domain\Role;
 use Core\Users\Domain\User;
 use Core\Users\Domain\UserId;
 use Core\Users\Domain\Username;
@@ -35,6 +36,7 @@ final class AuthTokenControllerTest extends WebTestCase
             new LastName('User'),
             new PlainPassword('Secret1234'),
             $hasher,
+            Role::User,
         );
         $this->em->persist($user);
         $this->em->flush();

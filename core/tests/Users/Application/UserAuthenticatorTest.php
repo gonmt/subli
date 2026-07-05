@@ -11,6 +11,7 @@ use Core\Users\Domain\FirstName;
 use Core\Users\Domain\LastName;
 use Core\Users\Domain\PasswordHasher;
 use Core\Users\Domain\PlainPassword;
+use Core\Users\Domain\Role;
 use Core\Users\Domain\User;
 use Core\Users\Domain\UserId;
 use Core\Users\Domain\UserRepository;
@@ -40,6 +41,7 @@ final class UserAuthenticatorTest extends TestCase
             new LastName('Doe'),
             new PlainPassword('Secret1234'),
             $this->hasher,
+            Role::User,
         );
 
         $this->hasher->method('hash')->willReturn('hashed');
@@ -50,6 +52,7 @@ final class UserAuthenticatorTest extends TestCase
 
         self::assertInstanceOf(AuthenticatedUser::class, $result);
         self::assertSame('johndoe', $result->username);
+        self::assertSame('ROLE_USER', $result->role);
     }
 
     public function testThrowsOnUserNotFound(): void
@@ -84,6 +87,7 @@ final class UserAuthenticatorTest extends TestCase
             new LastName('Doe'),
             new PlainPassword('Secret1234'),
             $this->hasher,
+            Role::User,
         );
 
         $this->hasher->method('hash')->willReturn('hashed');
