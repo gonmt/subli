@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace Core\Users\Infrastructure\Persistence\Doctrine\Type;
 
-use Core\Users\Domain\Email;
+use Core\Users\Domain\Username;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\StringType;
 
-final class EmailType extends StringType
+final class UsernameType extends StringType
 {
-    public const string NAME = 'user_email';
+    public const string NAME = 'user_username';
 
     public function getName(): string
     {
         return self::NAME;
     }
 
-    public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?Email
+    public function convertToPHPValue(mixed $value, AbstractPlatform $platform): ?Username
     {
         if (null === $value) {
             return null;
         }
 
-        return new Email((string) $value);
+        return new Username((string) $value);
     }
 
     public function convertToDatabaseValue(mixed $value, AbstractPlatform $platform): ?string
@@ -32,6 +32,6 @@ final class EmailType extends StringType
             return null;
         }
 
-        return $value instanceof Email ? $value->value : (string) $value;
+        return $value instanceof Username ? $value->value : (string) $value;
     }
 }

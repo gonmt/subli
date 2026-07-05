@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use Core\Users\Domain\Email;
 use Core\Users\Domain\FirstName;
 use Core\Users\Domain\LastName;
 use Core\Users\Domain\PasswordHasher;
@@ -12,6 +11,7 @@ use Core\Users\Domain\PlainPassword;
 use Core\Users\Domain\User;
 use Core\Users\Domain\UserId;
 use Core\Users\Domain\UserRepository;
+use Core\Users\Domain\Username;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -31,9 +31,9 @@ final class SeedAdminUserCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $email = new Email('admin@example.com');
+        $username = new Username('admin');
 
-        if (null !== $this->repository->findByEmail($email)) {
+        if (null !== $this->repository->findByUsername($username)) {
             $output->writeln('Admin user already exists.');
 
             return Command::SUCCESS;
@@ -41,7 +41,7 @@ final class SeedAdminUserCommand extends Command
 
         $user = User::create(
             UserId::random(),
-            $email,
+            $username,
             new FirstName('Admin'),
             new LastName('User'),
             new PlainPassword('Admin1234'),
@@ -51,7 +51,7 @@ final class SeedAdminUserCommand extends Command
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
-        $output->writeln('Admin user created: admin@example.com / Admin1234');
+        $output->writeln('Admin user created: admin / Admin1234');
 
         return Command::SUCCESS;
     }

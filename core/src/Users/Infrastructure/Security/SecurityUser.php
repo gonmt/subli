@@ -15,7 +15,7 @@ final readonly class SecurityUser implements UserInterface
 
     public function getUserIdentifier(): string
     {
-        return $this->user->email;
+        return $this->user->username;
     }
 
     public function getRoles(): array

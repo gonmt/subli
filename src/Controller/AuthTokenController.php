@@ -35,7 +35,7 @@ final readonly class AuthTokenController implements ExceptionMappable
         $data = $request->toArray();
 
         $user = ($this->authenticator)(
-            $data['email'] ?? '',
+            $data['username'] ?? '',
             $data['password'] ?? '',
         );
 

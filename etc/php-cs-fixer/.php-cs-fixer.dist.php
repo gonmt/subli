@@ -17,6 +17,7 @@ return (new PhpCsFixer\Config())
         '@PER-CS2.0' => true,
         'declare_strict_types' => true,
         'single_line_empty_body' => false, // ponytail: PHPCS PSR-12 requires closing brace on own line
+        'types_spaces' => ['space_multiple_catch' => 'single'],
     ])
     ->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect())
     ->setCacheFile(__DIR__ . '/.php-cs-fixer.cache')

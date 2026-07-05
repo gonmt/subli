@@ -6,5 +6,5 @@ namespace Core\Users\Domain;
 
 interface UserRepository
 {
-    public function findByEmail(Email $email): ?User;
+    public function findByUsername(Username $username): ?User;
 }

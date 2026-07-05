@@ -12,7 +12,7 @@ final class InvalidCredentialsError extends DomainError
     {
         parent::__construct(
             errorCode: 'USER_INVALID_CREDENTIALS',
-            description: 'Invalid email or password',
+            description: 'Invalid username or password',
         );
     }
 }

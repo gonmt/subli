@@ -8,7 +8,7 @@ final class User
 {
     private function __construct(
         private(set) readonly UserId $id,
-        private(set) readonly Email $email,
+        private(set) readonly Username $username,
         private(set) FirstName $firstName,
         private(set) LastName $lastName,
         private(set) string $hashedPassword,
@@ -17,13 +17,13 @@ final class User
 
     public static function create(
         UserId $id,
-        Email $email,
+        Username $username,
         FirstName $firstName,
         LastName $lastName,
         PlainPassword $password,
         PasswordHasher $hasher,
     ): self {
-        return new self($id, $email, $firstName, $lastName, $hasher->hash($password));
+        return new self($id, $username, $firstName, $lastName, $hasher->hash($password));
     }
 
     public function changePassword(PlainPassword $password, PasswordHasher $hasher): void
