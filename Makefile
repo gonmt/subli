@@ -7,7 +7,7 @@ else
 RUN := docker compose exec app
 endif
 
-.PHONY: up down restart sh install warmup db-create migrate test mutation phpstan cs-fix cs-check phpcs phpcbf deptrac lint
+.PHONY: up down restart sh install warmup db-create migrate migrate-diff test mutation phpstan cs-fix cs-check phpcs phpcbf deptrac lint
 
 up:
 	docker compose up -d
@@ -32,6 +32,9 @@ db-create:
 
 migrate:
 	$(RUN) bin/console doctrine:migrations:migrate --env=test --no-interaction
+
+migrate-diff:
+	$(RUN) bin/console doctrine:migrations:diff --no-interaction
 
 test:
 	$(RUN) bin/phpunit --configuration etc/phpunit/phpunit.xml.dist
