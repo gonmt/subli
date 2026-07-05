@@ -1,7 +1,9 @@
 export DOCKER_UID := $(shell id -u)
 export DOCKER_GID := $(shell id -g)
 
-.PHONY: up down sh test mutation phpstan cs-fix cs-check phpcs phpcbf deptrac lint
+RUN ?= docker compose exec app
+
+.PHONY: up down sh install warmup db-create migrate test mutation phpstan cs-fix cs-check phpcs phpcbf deptrac lint
 
 up:
 	docker compose up -d
@@ -12,28 +14,40 @@ down:
 sh:
 	docker compose exec app sh
 
+install:
+	composer install --no-interaction
+
+warmup:
+	$(RUN) bin/console cache:warmup --env=test
+
+db-create:
+	$(RUN) bin/console doctrine:database:create --env=test --no-interaction
+
+migrate:
+	$(RUN) bin/console doctrine:migrations:migrate --env=test --no-interaction
+
 test:
-	docker compose exec app bin/phpunit --configuration etc/phpunit/phpunit.xml.dist
+	$(RUN) bin/phpunit --configuration etc/phpunit/phpunit.xml.dist
 
 mutation:
-	docker compose exec app vendor/bin/infection --configuration=etc/infection/infection.json5 --threads=4 --with-uncovered
+	$(RUN) vendor/bin/infection --configuration=etc/infection/infection.json5 --threads=4 --with-uncovered
 
 phpstan:
-	docker compose exec app vendor/bin/phpstan analyse --configuration etc/phpstan/phpstan.neon --memory-limit=512M
+	$(RUN) vendor/bin/phpstan analyse --configuration etc/phpstan/phpstan.neon --memory-limit=512M
 
 cs-fix:
-	docker compose exec app vendor/bin/php-cs-fixer fix --config etc/php-cs-fixer/.php-cs-fixer.dist.php --allow-risky=yes
+	$(RUN) vendor/bin/php-cs-fixer fix --config etc/php-cs-fixer/.php-cs-fixer.dist.php --allow-risky=yes
 
 cs-check:
-	docker compose exec app vendor/bin/php-cs-fixer check --config etc/php-cs-fixer/.php-cs-fixer.dist.php --diff --allow-risky=yes
+	$(RUN) vendor/bin/php-cs-fixer check --config etc/php-cs-fixer/.php-cs-fixer.dist.php --diff --allow-risky=yes
 
 phpcs:
-	docker compose exec app vendor/bin/phpcs --standard=etc/phpcs/phpcs.xml
+	$(RUN) vendor/bin/phpcs --standard=etc/phpcs/phpcs.xml
 
 phpcbf:
-	docker compose exec app vendor/bin/phpcbf --standard=etc/phpcs/phpcs.xml
+	$(RUN) vendor/bin/phpcbf --standard=etc/phpcs/phpcs.xml
 
 deptrac:
-	docker compose exec app vendor/bin/deptrac analyse --config-file etc/deptrac/deptrac.yaml
+	$(RUN) vendor/bin/deptrac analyse --config-file etc/deptrac/deptrac.yaml
 
 lint: phpstan cs-check phpcs deptrac

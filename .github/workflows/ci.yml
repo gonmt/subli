@@ -21,8 +21,6 @@ jobs:
           - 5432:5432
 
     env:
-      APP_ENV: dev
-      APP_SECRET: ci-secret
       DATABASE_URL: postgresql://app:app@localhost:5432/app?serverVersion=18&charset=utf8
 
     steps:
@@ -40,16 +38,16 @@ jobs:
           key: composer-${{ hashFiles('composer.lock') }}
           restore-keys: composer-
 
-      - run: composer install --no-interaction
+      - run: make install
 
-      - run: bin/console cache:warmup
+      - run: make warmup RUN=
 
-      - run: vendor/bin/phpstan analyse --configuration etc/phpstan/phpstan.neon --memory-limit=512M
+      - run: make lint RUN=
 
-      - run: vendor/bin/php-cs-fixer check --config etc/php-cs-fixer/.php-cs-fixer.dist.php --diff --allow-risky=yes
+      - run: make db-create RUN=
 
-      - run: vendor/bin/deptrac analyse --config-file etc/deptrac/deptrac.yaml
+      - run: make migrate RUN=
 
-      - run: bin/phpunit --configuration etc/phpunit/phpunit.xml.dist
+      - run: make test RUN=
 
-      - run: vendor/bin/infection --configuration=etc/infection/infection.json5 --threads=4 --ignore-msi-with-no-mutations
+      - run: make mutation RUN=
