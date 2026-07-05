@@ -40,14 +40,14 @@ jobs:
 
       - run: make install
 
-      - run: make warmup RUN=
+      - run: make warmup
 
-      - run: make lint RUN=
+      - run: make lint
 
-      - run: make db-create RUN=
+      - run: make db-create
 
-      - run: make migrate RUN=
+      - run: make migrate
 
-      - run: make test RUN=
+      - run: make test
 
-      - run: make mutation RUN=
+      - run: make mutation

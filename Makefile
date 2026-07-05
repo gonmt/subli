@@ -1,7 +1,11 @@
 export DOCKER_UID := $(shell id -u)
 export DOCKER_GID := $(shell id -g)
 
-RUN ?= docker compose exec app
+ifeq ($(CI),true)
+RUN :=
+else
+RUN := docker compose exec app
+endif
 
 .PHONY: up down restart sh install warmup db-create migrate test mutation phpstan cs-fix cs-check phpcs phpcbf deptrac lint
 
